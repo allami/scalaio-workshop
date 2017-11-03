@@ -21,4 +21,5 @@ The state of the repository is now what I showed at the end of the workshop..
 Exercises (i.e. homework ;)
 * Add handling for missing commmands & events
 * Create an endpoint that uses the ReservationRepository to query the read side
+* Write tests
 
