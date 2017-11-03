@@ -12,14 +12,6 @@ class NotificationServiceImpl(reservationService: ReservationService)
 
   private val log = LoggerFactory.getLogger(classOf[NotificationServiceImpl])
 
-  private val messages = reservationService.reservationNotifications
-
-  messages.subscribe
-    .withGroupId("notification-service")
-    .atLeastOnce(Flow[ReservationNotification].mapAsync(1) { msg =>
-      sendNotification(msg)
-    })
-
   def sendNotification(notification: ReservationNotification) = {
     log.info(s"MESSAGE RECEIVED: ${notification.toString}")
     Future.successful(Done)

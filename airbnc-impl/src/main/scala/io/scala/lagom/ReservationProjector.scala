@@ -18,31 +18,10 @@ class ReservationProjector(
     readSide: CassandraReadSide)(implicit ec: ExecutionContext)
     extends ReadSideProcessor[ReservationEvent] {
 
-  override def buildHandler() =
-    readSide
-      .builder[ReservationEvent]("hostreservations")
-      .setGlobalPrepare(createTable)
-      .setPrepare(tag => prepareWrite())
-      .setEventHandler[ReservationRequested](process)
-      .build()
+  override def buildHandler() = ???
 
-  private def process(eventElement: EventStreamElement[ReservationRequested])
-    : Future[List[BoundStatement]] = {
-    writeHostReservation.map { ps =>
-      val bindWriteTitle = ps.bind()
-      bindWriteTitle.setString("host", eventElement.event.reservationData.host)
-      bindWriteTitle.setString("accomodation",
-                               eventElement.event.reservationData.accomodation)
-      bindWriteTitle.setString("guest",
-                               eventElement.event.reservationData.guest)
-      bindWriteTitle.setString(
-        "startingDate",
-        eventElement.event.reservationData.startingDate.toString)
-      bindWriteTitle.setInt("duration",
-                            eventElement.event.reservationData.duration)
-      List(bindWriteTitle)
-    }
-  }
+  private def process(
+      eventElement: EventStreamElement[_]): Future[List[BoundStatement]] = ???
 
   override def aggregateTags = Set(ReservationEvent.Tag)
 
@@ -55,11 +34,6 @@ class ReservationProjector(
   private def writeHostReservation: Future[PreparedStatement] =
     writePromise.future
 
-  private def prepareWrite(): Future[Done] = {
-    val f = session.prepare(
-      "INSERT INTO hostreservations (host, accomodation, guest, startingDate, duration) VALUES (?, ?, ?, ?, ?)")
-    writePromise.completeWith(f)
-    f.map(_ => Done)
-  }
+  private def prepareWrite(): Future[Done] = ???
 
 }

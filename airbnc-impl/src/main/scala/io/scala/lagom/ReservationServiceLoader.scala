@@ -51,12 +51,12 @@ abstract class AirbncApplication(context: LagomApplicationContext)
 object ReservationServiceSerializerRegistry extends JsonSerializerRegistry {
   override def serializers: collection.immutable.Seq[JsonSerializer[_]] =
     collection.immutable.Seq(
-      JsonSerializer[RequestReservation],
-      JsonSerializer[ConfirmReservation],
-      JsonSerializer[CancelReservation],
-      JsonSerializer[ReservationRequested],
-      JsonSerializer[ReservationRejected],
-      JsonSerializer[ReservationConfirmed],
-      JsonSerializer[ReservationCancelled]
+//      JsonSerializer[RequestReservation],
+//      JsonSerializer[ConfirmReservation],
+//      JsonSerializer[CancelReservation],
+//      JsonSerializer[ReservationRequested],
+//      JsonSerializer[ReservationRejected],
+//      JsonSerializer[ReservationConfirmed],
+//      JsonSerializer[ReservationCancelled]
     )
 }

@@ -1,32 +1,19 @@
 package io.scala.lagom
 
-import akka.{Done, NotUsed}
-import com.lightbend.lagom.scaladsl.api.broker.Topic
-import com.lightbend.lagom.scaladsl.api.broker.kafka.{
-  KafkaProperties,
-  PartitionKeyStrategy
-}
+import akka.NotUsed
+import com.lightbend.lagom.scaladsl.api.Service.{named, restCall}
 import com.lightbend.lagom.scaladsl.api.transport.Method
-import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
-import play.api.libs.json.{Format, Json}
+import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceCall}
 
 trait ReservationService extends Service {
 
-  def requestReservation(accomodation: String): ServiceCall[Reservation, Done]
+  def healthCheck(): ServiceCall[NotUsed, String]
 
-  /**
-    */
-  def reservationNotifications: Topic[ReservationNotification]
-
-  override final def descriptor = {
-    import Service._
-    // @formatter:off
+  override final def descriptor: Descriptor =
     named("airbnc")
       .withCalls(
-        restCall(Method.POST, "/api/accomodation/:accomodation/reservation", requestReservation _)
-      ).withTopics(
-        topic("airbnc-ReservationNotifications", reservationNotifications)
-      ).withAutoAcl(true)
-    // @formatter:on
-  }
+        restCall(Method.GET, "/api/notifications/health", healthCheck)
+      )
+      .withAutoAcl(true)
+
 }
