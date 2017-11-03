@@ -12,7 +12,7 @@ import play.api.libs.json.{Format, Json}
 
 trait ReservationService extends Service {
 
-  def requestReservation(accomodation: String): ServiceCall[Reservation, Done]
+  def requestReservation(accommodation: String): ServiceCall[Reservation, Done]
 
   /**
     */
@@ -23,7 +23,7 @@ trait ReservationService extends Service {
     // @formatter:off
     named("airbnc")
       .withCalls(
-        restCall(Method.POST, "/api/accomodation/:accomodation/reservation", requestReservation _)
+        restCall(Method.POST, "/api/accommodation/:accommodation/reservation", requestReservation _)
       ).withTopics(
         topic("airbnc-ReservationNotifications", reservationNotifications)
       ).withAutoAcl(true)

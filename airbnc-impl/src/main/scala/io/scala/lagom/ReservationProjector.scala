@@ -31,8 +31,8 @@ class ReservationProjector(
     writeHostReservation.map { ps =>
       val bindWriteTitle = ps.bind()
       bindWriteTitle.setString("host", eventElement.event.reservationData.host)
-      bindWriteTitle.setString("accomodation",
-                               eventElement.event.reservationData.accomodation)
+      bindWriteTitle.setString("accomnodation",
+                               eventElement.event.reservationData.accommodation)
       bindWriteTitle.setString("guest",
                                eventElement.event.reservationData.guest)
       bindWriteTitle.setString(
@@ -49,7 +49,7 @@ class ReservationProjector(
   private def createTable(): Future[Done] =
     session.executeCreateTable(
       "CREATE TABLE IF NOT EXISTS hostreservations ( " +
-        "host TEXT, accomodation TEXT, guest TEXT, startingDate TEXT, duration INT, PRIMARY KEY (host, accomodation, startingDate, guest))")
+        "host TEXT, accommodation TEXT, guest TEXT, startingDate TEXT, duration INT, PRIMARY KEY (host, accommodation, startingDate, guest))")
 
   private val writePromise = Promise[PreparedStatement] // initialized in prepare
   private def writeHostReservation: Future[PreparedStatement] =
@@ -57,7 +57,7 @@ class ReservationProjector(
 
   private def prepareWrite(): Future[Done] = {
     val f = session.prepare(
-      "INSERT INTO hostreservations (host, accomodation, guest, startingDate, duration) VALUES (?, ?, ?, ?, ?)")
+      "INSERT INTO hostreservations (host, accommodation, guest, startingDate, duration) VALUES (?, ?, ?, ?, ?)")
     writePromise.completeWith(f)
     f.map(_ => Done)
   }

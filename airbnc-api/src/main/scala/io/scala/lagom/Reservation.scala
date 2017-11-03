@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 import play.api.libs.json.{Format, Json}
 
-case class Reservation(accomodation: String,
+case class Reservation(accommodation: String,
                        guest: String,
                        host: String,
                        startingDate: LocalDate,

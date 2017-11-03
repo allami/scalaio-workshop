@@ -12,13 +12,13 @@ class ReservationServiceImpl(persistentEntityRegistry: PersistentEntityRegistry,
                              reservationRepository: ReservationRepository)
     extends ReservationService {
 
-  override def requestReservation(accomodation: String) = ServiceCall {
+  override def requestReservation(accommodation: String) = ServiceCall {
     reservation =>
       val aggregate =
-        persistentEntityRegistry.refFor[ReservationAggregate](accomodation)
+        persistentEntityRegistry.refFor[ReservationAggregate](accommodation)
 
       val reservationData = ReservationData(
-        accomodation = reservation.accomodation,
+        accommodation = reservation.accommodation,
         guest = reservation.guest,
         host = reservation.host,
         startingDate = reservation.startingDate,
@@ -42,28 +42,28 @@ class ReservationServiceImpl(persistentEntityRegistry: PersistentEntityRegistry,
     event match {
       case ReservationRequested(reservationData) =>
         ReservationRequestedNotification(
-          Reservation(reservationData.accomodation,
+          Reservation(reservationData.accommodation,
                       reservationData.guest,
                       reservationData.host,
                       reservationData.startingDate,
                       reservationData.duration))
       case ReservationConfirmed(reservationData) =>
         ReservationConfirmedNotification(
-          Reservation(reservationData.accomodation,
+          Reservation(reservationData.accommodation,
                       reservationData.guest,
                       reservationData.host,
                       reservationData.startingDate,
                       reservationData.duration))
       case ReservationRejected(reservationData) =>
         ReservationRejectedNotification(
-          Reservation(reservationData.accomodation,
+          Reservation(reservationData.accommodation,
                       reservationData.guest,
                       reservationData.host,
                       reservationData.startingDate,
                       reservationData.duration))
       case ReservationCancelled(reservationData) =>
         ReservationCancelledNotification(
-          Reservation(reservationData.accomodation,
+          Reservation(reservationData.accommodation,
                       reservationData.guest,
                       reservationData.host,
                       reservationData.startingDate,

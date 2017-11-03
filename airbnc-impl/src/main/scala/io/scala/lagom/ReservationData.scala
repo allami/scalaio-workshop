@@ -7,7 +7,7 @@ import play.api.libs.json._
 /**
   * hello-lagom
   */
-case class ReservationData(accomodation: String,
+case class ReservationData(accommodation: String,
                            guest: String,
                            host: String,
                            startingDate: LocalDate,

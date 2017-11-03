@@ -17,7 +17,7 @@ class ReservationRepository(session: CassandraSession)(
   }
 
   private def convertRowToReservation(row: Row): Reservation =
-    Reservation(row.getString("accomodation"),
+    Reservation(row.getString("accommodation"),
                 row.getString("guest"),
                 row.getString("host"),
                 LocalDate.parse(row.getString("startingDate")),
