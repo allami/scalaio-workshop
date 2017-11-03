@@ -4,6 +4,9 @@ import akka.Done
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity.ReplyType
 import play.api.libs.json.{Format, Json}
 
+/**
+  * hello-lagom
+  */
 sealed trait ReservationCommand[R] extends ReplyType[R]
 
 case class RequestReservation(reservationData: ReservationData)
@@ -32,5 +35,4 @@ case class RejectReservation(reservationData: ReservationData)
 
 object RejectReservation {
   implicit val format: Format[CancelReservation] = Json.format
-
 }

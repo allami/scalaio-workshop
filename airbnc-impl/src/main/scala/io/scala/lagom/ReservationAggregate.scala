@@ -17,12 +17,23 @@ class ReservationAggregate extends PersistentEntity {
                        .withDefaultValue(List[ReservationData]()),
                      Map.empty[LocalDate, ReservationData])
 
-  override def behavior: Behavior =
-    _ =>
-      Actions().onCommand[RequestReservation, Done] {
+  override def behavior: Behavior = { _ =>
+    Actions()
+      .onCommand[RequestReservation, Done] {
         case (RequestReservation(reservationData), ctx, state) =>
-          ctx.reply(Done)
-          ctx.done
-    }
-
+          ctx.thenPersist(
+            ReservationRequested(reservationData)
+          ) { _ =>
+            ctx.reply(Done)
+          }
+      }
+      .onEvent {
+        case (ReservationRequested(reservationData), state) =>
+          val reservations = reservationData +: state.reservationRequests(
+            reservationData.startingDate)
+          state.copy(
+            reservationRequests = state.reservationRequests
+              + (reservationData.startingDate -> reservations))
+      }
+  }
 }
